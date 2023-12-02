@@ -13,11 +13,10 @@ import (
 func StartShop() *http.Server {
 	initConfig()
 
-	r := router.InitRouter()
 	server := &http.Server{
-		Addr:              fmt.Sprintf(":%d", config.Config.Shop.HTTPServer.Port),
+		Addr:              fmt.Sprintf("localhost:%d", config.Config.Shop.HTTPServer.Port),
 		ReadHeaderTimeout: 1 * time.Second,
-		Handler:           r,
+		Handler:           router.InitRouter(),
 	}
 
 	listener, err := net.Listen("tcp", server.Addr)
