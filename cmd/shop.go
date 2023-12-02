@@ -14,7 +14,11 @@ func StartShop() *http.Server {
 	initConfig()
 
 	server := &http.Server{
-		Addr:              fmt.Sprintf("localhost:%d", config.Config.Shop.HTTPServer.Port),
+		Addr: fmt.Sprintf(
+			"%s:%d",
+			config.Config.Shop.HTTPServer.Host,
+			config.Config.Shop.HTTPServer.Port,
+		),
 		ReadHeaderTimeout: 1 * time.Second,
 		Handler:           router.InitRouter(),
 	}
