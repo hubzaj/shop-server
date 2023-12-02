@@ -1,0 +1,4 @@
+shop:
+  httpServer:
+    port: 0
+    shutdownTimeout: 5

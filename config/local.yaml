@@ -1,0 +1,3 @@
+shop:
+  httpServer:
+    host: localhost
