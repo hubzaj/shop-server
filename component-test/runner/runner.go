@@ -4,12 +4,21 @@ import (
 	"fmt"
 	"github.com/hubzaj/golang-component-test/pkg/config"
 	shopRunner "github.com/hubzaj/golang-component-test/pkg/runner"
+	"net/http"
 	"strconv"
 	"strings"
 )
 
 func StartShop(cfg *config.GeneralConfig) {
 	server := shopRunner.StartShopWithConfig(cfg)
+	updateConfig(cfg, server)
+}
+
+func updateConfig(cfg *config.GeneralConfig, server *http.Server) {
+	updateShopServerPort(cfg, server)
+}
+
+func updateShopServerPort(cfg *config.GeneralConfig, server *http.Server) {
 	port, err := strconv.Atoi(strings.Split(server.Addr, ":")[1])
 	if err != nil {
 		panic(fmt.Errorf("error during parsing server port: %s", err))
