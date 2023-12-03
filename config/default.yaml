@@ -1,4 +1,6 @@
 shop:
   httpServer:
-    port: 0
+    port: 8083
     shutdownTimeout: 5
+  api:
+    baseUrl: /api/v1/shop

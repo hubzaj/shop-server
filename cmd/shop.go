@@ -14,7 +14,11 @@ func StartShop() *http.Server {
 	initConfig()
 
 	server := &http.Server{
-		Addr:              fmt.Sprintf("localhost:%d", config.Config.Shop.HTTPServer.Port),
+		Addr: fmt.Sprintf(
+			"%s:%d",
+			config.Config.Shop.HTTPServer.Host,
+			config.Config.Shop.HTTPServer.Port,
+		),
 		ReadHeaderTimeout: 1 * time.Second,
 		Handler:           router.InitRouter(),
 	}
@@ -27,12 +31,16 @@ func StartShop() *http.Server {
 		server.Addr = listener.Addr().String()
 	}
 
-	go func() {
-		fmt.Printf("Shop http-server is listening on port [%s]", server.Addr)
-		if err := server.Serve(listener); err != nil {
-			fmt.Println("Shop http-server error")
-		}
-	}()
+	if err := server.Serve(listener); err != nil {
+		fmt.Println("Shop http-server error")
+	}
+
+	//go func() {
+	//	fmt.Printf("Shop http-server is listening on port [%s]", server.Addr)
+	//	if err := server.Serve(listener); err != nil {
+	//		fmt.Println("Shop http-server error")
+	//	}
+	//}()
 
 	return server
 }
