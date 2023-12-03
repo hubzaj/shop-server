@@ -18,7 +18,7 @@ func TestShopAlbumEndpoints(t *testing.T) {
 
 	runner.StartShop(cfg)
 
-	t.Run("config test", func(test *testing.T) {
+	t.Run("should return all available albums", func(test *testing.T) {
 		test.Parallel()
 		// When
 		response := httpClient.SendGetRequest(test, "albums")
