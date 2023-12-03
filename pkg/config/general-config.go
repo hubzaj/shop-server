@@ -5,5 +5,5 @@ import (
 )
 
 type GeneralConfig struct {
-	Shop shop.Config `koanf:"shop"`
+	Shop *shop.Config `koanf:"shop"`
 }
