@@ -31,12 +31,16 @@ func StartShop() *http.Server {
 		server.Addr = listener.Addr().String()
 	}
 
-	go func() {
-		fmt.Printf("Shop http-server is listening on port [%s]", server.Addr)
-		if err := server.Serve(listener); err != nil {
-			fmt.Println("Shop http-server error")
-		}
-	}()
+	if err := server.Serve(listener); err != nil {
+		fmt.Println("Shop http-server error")
+	}
+
+	//go func() {
+	//	fmt.Printf("Shop http-server is listening on port [%s]", server.Addr)
+	//	if err := server.Serve(listener); err != nil {
+	//		fmt.Println("Shop http-server error")
+	//	}
+	//}()
 
 	return server
 }

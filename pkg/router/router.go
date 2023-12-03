@@ -6,19 +6,26 @@ import (
 	"net/http"
 )
 
+type Config struct {
+	router *gin.Engine
+}
+
 func InitRouter() *gin.Engine {
-	router := gin.New()
-
-	applyAlbumRoutes(router)
-
-	router.NoRoute(func(c *gin.Context) {
-		c.AbortWithStatus(http.StatusNotFound)
-	})
-
+	router := gin.Default()
+	NewHandler(&Config{router: router})
 	return router
 }
 
-func applyAlbumRoutes(router *gin.Engine) {
-	router.Group("/")
-	router.GET("albums", controllers.GetAlbums)
+func NewHandler(config *Config) {
+	shopRouterGroup := config.router.Group("/api/v1/shop")
+
+	addAlbumRoutes(shopRouterGroup)
+
+	config.router.NoRoute(func(c *gin.Context) {
+		c.AbortWithStatus(http.StatusNotFound)
+	})
+}
+
+func addAlbumRoutes(routerGroup *gin.RouterGroup) {
+	routerGroup.GET("/albums", controllers.GetAlbums)
 }
