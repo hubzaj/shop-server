@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/hubzaj/golang-component-test/pkg/config"
-	controllers "github.com/hubzaj/golang-component-test/pkg/controllers/shop"
+	"github.com/hubzaj/golang-component-test/pkg/shop/controller"
 	"net/http"
 )
 
@@ -24,5 +24,5 @@ func NewHandler(router *gin.Engine) {
 }
 
 func addAlbumRoutes(routerGroup *gin.RouterGroup) {
-	routerGroup.GET("/albums", controllers.GetAlbums)
+	routerGroup.GET("/albums", controller.GetAlbums)
 }
