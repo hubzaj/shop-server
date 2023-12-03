@@ -8,6 +8,7 @@ import (
 
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/file"
+	"github.com/knadh/koanf/providers/structs"
 	"github.com/knadh/koanf/v2"
 )
 
@@ -15,16 +16,22 @@ var k = koanf.New(".")
 
 var Config *GeneralConfig
 
-func InitConfig() error {
-	return initConfig(getConfigName())
+func InitConfig(cfg *GeneralConfig) error {
+	return initConfigWithConfig(cfg, getConfigName())
 }
 
-func initConfig(configName string) error {
-	if err := loadConfig("default"); err != nil {
-		return err
-	}
-	if err := loadConfig(configName); err != nil {
-		return err
+func initConfigWithConfig(cfg *GeneralConfig, configName string) error {
+	if cfg != nil {
+		if err := loadConfigFromStruct(cfg); err != nil {
+			return err
+		}
+	} else {
+		if err := loadConfig("default"); err != nil {
+			return err
+		}
+		if err := loadConfig(configName); err != nil {
+			return err
+		}
 	}
 	SetGeneralConfig()
 	return nil
@@ -44,6 +51,13 @@ func getConfigPath(configName string) string {
 func loadConfig(configName string) error {
 	if err := k.Load(file.Provider(getConfigPath(configName)), yaml.Parser()); err != nil {
 		return fmt.Errorf("fatal error loading default config file: %s", err)
+	}
+	return nil
+}
+
+func loadConfigFromStruct(cfg *GeneralConfig) error {
+	if err := k.Load(structs.Provider(cfg, "koanf"), nil); err != nil {
+		return fmt.Errorf("fatal error loading config from struct: %s", err)
 	}
 	return nil
 }

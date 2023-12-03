@@ -1,4 +1,4 @@
-package main
+package runner
 
 import (
 	"fmt"
@@ -11,7 +11,11 @@ import (
 )
 
 func StartShop() *http.Server {
-	initConfig()
+	return StartShopWithConfig(nil)
+}
+
+func StartShopWithConfig(cfg *config.GeneralConfig) *http.Server {
+	initConfig(cfg)
 
 	server := &http.Server{
 		Addr: fmt.Sprintf(
@@ -45,8 +49,8 @@ func StartShop() *http.Server {
 	return server
 }
 
-func initConfig() {
-	if err := config.InitConfig(); err != nil {
+func initConfig(cfg *config.GeneralConfig) {
+	if err := config.InitConfig(cfg); err != nil {
 		utils.ExitOnError(err, "error initializing configuration")
 	}
 }

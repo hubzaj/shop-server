@@ -1,8 +1,8 @@
 package shop
 
 type Config struct {
-	HTTPServer HTTPServer `koanf:"httpServer"`
-	Api        API        `koanf:"api"`
+	HTTPServer *HTTPServer `koanf:"httpServer"`
+	Api        *API        `koanf:"api"`
 }
 
 type HTTPServer struct {
