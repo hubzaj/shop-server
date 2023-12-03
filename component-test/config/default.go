@@ -14,7 +14,7 @@ func CreateDefaultConfig() *config.GeneralConfig {
 				ShutdownTimeout: 5,
 			},
 			Api: &shop.API{
-				BaseURL: "/api/v1/shop",
+				BaseURL: "api/v1/shop",
 			},
 		},
 	}

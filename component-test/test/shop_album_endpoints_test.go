@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestCookieSyncing(t *testing.T) {
+func TestShopAlbumEndpoints(t *testing.T) {
 	t.Parallel()
 
 	cfg := config.CreateDefaultConfig()
@@ -19,10 +19,11 @@ func TestCookieSyncing(t *testing.T) {
 	runner.StartShopWithConfig(cfg)
 
 	t.Run("config test", func(test *testing.T) {
+		test.Parallel()
 		// When
 		response := httpClient.SendGetRequest(test, "albums")
 
 		// Then
-		require.Equal(test, http.StatusOK, response.Status)
+		require.Equal(test, http.StatusOK, response.StatusCode)
 	})
 }

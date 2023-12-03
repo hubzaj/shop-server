@@ -12,14 +12,15 @@ import (
 )
 
 type HTTPClient struct {
-	client  *http.Client
-	shopURL string
+	client *http.Client
+
+	shopConfig *config.GeneralConfig
 }
 
 func NewHTTPClient(cfg *config.GeneralConfig) *HTTPClient {
 	httpClient := &HTTPClient{}
 	httpClient.initHTTPClient()
-	httpClient.setShopURL(cfg)
+	httpClient.shopConfig = cfg
 	return httpClient
 }
 
@@ -31,22 +32,23 @@ func (c *HTTPClient) initHTTPClient() {
 	c.client = retryClient.StandardClient()
 }
 
-func (c *HTTPClient) setShopURL(cfg *config.GeneralConfig) {
-	c.shopURL = getShopURL(cfg)
-}
-
-func getShopURL(cfg *config.GeneralConfig) string {
-	return fmt.Sprintf("%s:%d/%s", cfg.Shop.HTTPServer.Host, cfg.Shop.HTTPServer.Port, cfg.Shop.Api.BaseURL)
-}
-
 func (c *HTTPClient) SendGetRequest(t *testing.T, endpoint string) *http.Response {
 	request, err := http.NewRequest(http.MethodGet, c.getShopUrlWithEndpoint(endpoint), http.NoBody)
 	require.NoError(t, err)
 	response, err := c.client.Do(request)
 	require.NoError(t, err)
+	defer response.Body.Close()
 	return response
 }
 
+func (c *HTTPClient) getShopURL() string {
+	return fmt.Sprintf("http://%s:%d/%s",
+		c.shopConfig.Shop.HTTPServer.Host,
+		c.shopConfig.Shop.HTTPServer.Port,
+		c.shopConfig.Shop.Api.BaseURL,
+	)
+}
+
 func (c *HTTPClient) getShopUrlWithEndpoint(endpoint string) string {
-	return fmt.Sprintf("%s/%s", c.shopURL, endpoint)
+	return fmt.Sprintf("%s/%s", c.getShopURL(), endpoint)
 }
