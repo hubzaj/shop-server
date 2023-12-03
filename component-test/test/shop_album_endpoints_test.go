@@ -3,7 +3,7 @@ package test
 import (
 	"github.com/hubzaj/golang-component-test/component-test/client"
 	"github.com/hubzaj/golang-component-test/component-test/config"
-	"github.com/hubzaj/golang-component-test/pkg/runner"
+	"github.com/hubzaj/golang-component-test/component-test/runner"
 	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
@@ -16,7 +16,7 @@ func TestShopAlbumEndpoints(t *testing.T) {
 
 	httpClient := client.NewHTTPClient(cfg)
 
-	runner.StartShopWithConfig(cfg)
+	runner.StartShop(cfg)
 
 	t.Run("config test", func(test *testing.T) {
 		test.Parallel()
