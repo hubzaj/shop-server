@@ -2,26 +2,23 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/hubzaj/golang-component-test/pkg/config"
 	controllers "github.com/hubzaj/golang-component-test/pkg/controllers/shop"
 	"net/http"
 )
 
-type Config struct {
-	router *gin.Engine
-}
-
 func InitRouter() *gin.Engine {
 	router := gin.Default()
-	NewHandler(&Config{router: router})
+	NewHandler(router)
 	return router
 }
 
-func NewHandler(config *Config) {
-	shopRouterGroup := config.router.Group("/api/v1/shop")
+func NewHandler(router *gin.Engine) {
+	shopRouterGroup := router.Group(config.Config.Shop.Api.BaseURL)
 
 	addAlbumRoutes(shopRouterGroup)
 
-	config.router.NoRoute(func(c *gin.Context) {
+	router.NoRoute(func(c *gin.Context) {
 		c.AbortWithStatus(http.StatusNotFound)
 	})
 }
