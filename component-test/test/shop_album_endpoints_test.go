@@ -5,7 +5,7 @@ import (
 	"github.com/hubzaj/golang-component-test/component-test/config"
 	"github.com/hubzaj/golang-component-test/component-test/runner"
 	"github.com/hubzaj/golang-component-test/component-test/utils"
-	"github.com/hubzaj/golang-component-test/pkg/shop"
+	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
@@ -24,7 +24,7 @@ func TestShopAlbumEndpoints(t *testing.T) {
 		test.Parallel()
 		// Given
 		// TODO: Create album via POST
-		album := &shop.Album{
+		album := &model.Album{
 			Title:  "Blue Train",
 			Artist: "John Coltrane",
 			Price:  56.99,
@@ -37,7 +37,7 @@ func TestShopAlbumEndpoints(t *testing.T) {
 		// Then
 		require.Equal(test, http.StatusOK, response.StatusCode)
 
-		actualAlbums := utils.UnmarshalResponseBodyToArray(response.Body, []*shop.Album{})
+		actualAlbums := utils.UnmarshalResponseBodyToArray(response.Body, []*model.Album{})
 
 		actualAlbum := utils.FindAlbumByTitle(actualAlbums, album.Title)
 		require.NotNil(test, actualAlbum)
