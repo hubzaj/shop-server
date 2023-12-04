@@ -25,4 +25,5 @@ func NewHandler(router *gin.Engine) {
 
 func addAlbumRoutes(routerGroup *gin.RouterGroup) {
 	routerGroup.GET("/albums", controller.GetAlbums)
+	routerGroup.POST("/album", controller.PostAlbum)
 }

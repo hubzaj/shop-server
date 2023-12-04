@@ -1,6 +1,8 @@
 package client
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/hubzaj/golang-component-test/pkg/config"
@@ -34,6 +36,16 @@ func (c *HTTPClient) initHTTPClient() {
 
 func (c *HTTPClient) SendGetRequest(t *testing.T, endpoint string) *http.Response {
 	request, err := http.NewRequest(http.MethodGet, c.getShopUrlWithEndpoint(endpoint), http.NoBody)
+	require.NoError(t, err)
+	response, err := c.client.Do(request)
+	require.NoError(t, err)
+	return response
+}
+
+func (c *HTTPClient) SendPostRequest(t *testing.T, endpoint string, payload interface{}) *http.Response {
+	jsonPayload, err := json.Marshal(payload)
+	require.NoError(t, err)
+	request, err := http.NewRequest(http.MethodPost, c.getShopUrlWithEndpoint(endpoint), bytes.NewReader(jsonPayload))
 	require.NoError(t, err)
 	response, err := c.client.Do(request)
 	require.NoError(t, err)

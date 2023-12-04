@@ -3,6 +3,7 @@ package test
 import (
 	"github.com/hubzaj/golang-component-test/component-test/client"
 	"github.com/hubzaj/golang-component-test/component-test/config"
+	"github.com/hubzaj/golang-component-test/component-test/endpoint"
 	"github.com/hubzaj/golang-component-test/component-test/runner"
 	"github.com/hubzaj/golang-component-test/component-test/utils"
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
@@ -20,18 +21,13 @@ func TestShopAlbumEndpoints(t *testing.T) {
 
 	runner.StartShop(cfg)
 
-	t.Run("should return all available albums", func(test *testing.T) {
+	t.Run("should append new album into existing ones", func(test *testing.T) {
 		test.Parallel()
 		// Given
-		// TODO: Create album via POST
-		album := &model.Album{
-			Title:  "Blue Train",
-			Artist: "John Coltrane",
-			Price:  56.99,
-		}
+		album := createNewAlbum(test, httpClient)
 
 		// When
-		response := httpClient.SendGetRequest(test, "albums")
+		response := httpClient.SendGetRequest(test, endpoint.GetAvailableAlbums)
 		defer response.Body.Close()
 
 		// Then
@@ -45,4 +41,16 @@ func TestShopAlbumEndpoints(t *testing.T) {
 		actualAlbum.ID = ""
 		require.Equal(test, album, actualAlbum)
 	})
+}
+
+func createNewAlbum(t *testing.T, c *client.HTTPClient) *model.Album {
+	album := &model.Album{
+		Title:  utils.GenerateRandomString(10),
+		Artist: utils.GenerateRandomString(10),
+		Price:  77.77,
+	}
+	response := c.SendPostRequest(t, endpoint.CreateNewAlbum, album)
+	defer response.Body.Close()
+	require.Equal(t, http.StatusCreated, response.StatusCode)
+	return album
 }
