@@ -37,7 +37,6 @@ func (c *HTTPClient) SendGetRequest(t *testing.T, endpoint string) *http.Respons
 	require.NoError(t, err)
 	response, err := c.client.Do(request)
 	require.NoError(t, err)
-	defer response.Body.Close()
 	return response
 }
 
