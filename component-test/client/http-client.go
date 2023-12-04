@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hashicorp/go-retryablehttp"
-	"github.com/hubzaj/golang-component-test/pkg/config"
+	config "github.com/hubzaj/golang-component-test/component-test/config"
 	"github.com/stretchr/testify/require"
 	"testing"
 
@@ -16,13 +16,13 @@ import (
 type HTTPClient struct {
 	client *http.Client
 
-	shopConfig *config.GeneralConfig
+	cfg *config.TestConfig
 }
 
-func NewHTTPClient(cfg *config.GeneralConfig) *HTTPClient {
+func NewHTTPClient(cfg *config.TestConfig) *HTTPClient {
 	httpClient := &HTTPClient{}
 	httpClient.initHTTPClient()
-	httpClient.shopConfig = cfg
+	httpClient.cfg = cfg
 	return httpClient
 }
 
@@ -54,9 +54,9 @@ func (c *HTTPClient) SendPostRequest(t *testing.T, endpoint string, payload inte
 
 func (c *HTTPClient) getShopURL() string {
 	return fmt.Sprintf("http://%s:%d/%s",
-		c.shopConfig.Shop.HTTPServer.Host,
-		c.shopConfig.Shop.HTTPServer.Port,
-		c.shopConfig.Shop.Api.BaseURL,
+		c.cfg.ShopConfig.Shop.HTTPServer.Host,
+		c.cfg.ShopConfig.Shop.HTTPServer.Port,
+		c.cfg.ShopConfig.Shop.Api.BaseURL,
 	)
 }
 

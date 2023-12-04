@@ -18,6 +18,7 @@ func TestShopAlbumEndpoints(t *testing.T) {
 	cfg := config.CreateDefaultConfig()
 
 	httpClient := client.NewHTTPClient(cfg)
+	//s := stub.InitStubs(cfg)
 
 	runner.StartShop(cfg)
 

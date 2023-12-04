@@ -7,11 +7,12 @@ import (
 )
 
 var (
+	ctx    context.Context
 	cancel context.CancelFunc
 )
 
 func TestMain(m *testing.M) {
-	_, cancel = context.WithCancel(context.Background())
+	ctx, cancel = context.WithCancel(context.Background())
 
 	exitCode := m.Run()
 	cancel()

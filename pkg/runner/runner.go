@@ -16,6 +16,7 @@ func StartShop() *http.Server {
 
 func StartShopWithConfig(cfg *config.GeneralConfig) *http.Server {
 	initConfig(cfg)
+	//storage.InitStorage()
 
 	server := &http.Server{
 		Addr: fmt.Sprintf(
