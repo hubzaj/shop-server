@@ -4,26 +4,28 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hubzaj/golang-component-test/pkg/config"
 	"github.com/hubzaj/golang-component-test/pkg/shop/controller"
+	"github.com/hubzaj/golang-component-test/pkg/shop/controller/album"
 	"net/http"
 )
 
-func InitRouter() *gin.Engine {
+func InitRouter(dependencies *controller.Dependencies) *gin.Engine {
 	router := gin.Default()
-	NewHandler(router)
+	NewHandler(router, dependencies)
 	return router
 }
 
-func NewHandler(router *gin.Engine) {
+func NewHandler(router *gin.Engine, dependencies *controller.Dependencies) {
 	shopRouterGroup := router.Group(config.Config.Shop.Api.BaseURL)
 
-	addAlbumRoutes(shopRouterGroup)
+	addAlbumRoutes(shopRouterGroup, dependencies)
 
 	router.NoRoute(func(c *gin.Context) {
 		c.AbortWithStatus(http.StatusNotFound)
 	})
 }
 
-func addAlbumRoutes(routerGroup *gin.RouterGroup) {
-	routerGroup.GET("/albums", controller.GetAlbums)
-	routerGroup.POST("/album", controller.PostAlbum)
+func addAlbumRoutes(routerGroup *gin.RouterGroup, dependencies *controller.Dependencies) {
+	albumController := album.NewController(dependencies)
+	routerGroup.GET("/albums", albumController.GetAlbums)
+	routerGroup.POST("/album", albumController.PostAlbum)
 }

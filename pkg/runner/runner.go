@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"github.com/hubzaj/golang-component-test/pkg/config"
 	"github.com/hubzaj/golang-component-test/pkg/router"
+	"github.com/hubzaj/golang-component-test/pkg/shop/controller"
+	"github.com/hubzaj/golang-component-test/pkg/shop/services"
+	"github.com/hubzaj/golang-component-test/pkg/shop/services/album"
 	"github.com/hubzaj/golang-component-test/pkg/storage"
 	"github.com/hubzaj/golang-component-test/pkg/utils"
 	"net"
@@ -17,7 +20,17 @@ func StartShop() *http.Server {
 
 func StartShopWithConfig(cfg *config.GeneralConfig) *http.Server {
 	initConfig(cfg)
-	storage.InitStorage(cfg.Shop.Storage)
+	shopStorage := storage.InitStorage(cfg.Shop.Storage)
+
+	albumService := &album.Service{
+		Storage: shopStorage,
+	}
+
+	shopRouter := router.InitRouter(&controller.Dependencies{
+		ShopService: &services.ShopService{
+			AlbumService: albumService,
+		},
+	})
 
 	server := &http.Server{
 		Addr: fmt.Sprintf(
@@ -26,7 +39,7 @@ func StartShopWithConfig(cfg *config.GeneralConfig) *http.Server {
 			config.Config.Shop.HTTPServer.Port,
 		),
 		ReadHeaderTimeout: 1 * time.Second,
-		Handler:           router.InitRouter(),
+		Handler:           shopRouter,
 	}
 
 	listener, err := net.Listen("tcp", server.Addr)
