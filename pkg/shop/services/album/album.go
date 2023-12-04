@@ -19,7 +19,17 @@ type Service struct {
 }
 
 func (s *Service) RegisterNewAlbum(album *model.Album) {
-
+	_, err := s.Storage.DB.Exec("INSERT INTO  albums(id,title,artist,price) VALUES($1,$2,$3,$4)",
+		album.ID,
+		album.Title,
+		album.Artist,
+		album.Price,
+	)
+	if err != nil {
+		log.Fatalf("error inserting new album: %s", err)
+	} else {
+		log.Printf("new album has been added: %v", album)
+	}
 }
 
 func (s *Service) GetAvailableAlbums() []*model.Album {
