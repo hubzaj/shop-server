@@ -7,7 +7,12 @@ import (
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/wait"
 	"log"
+	"strconv"
 	"time"
+)
+
+const (
+	postgresDefaultPort = "5432/tcp"
 )
 
 type StorageStub struct {
@@ -34,10 +39,18 @@ func InitPostgresStub(cfg *config.TestConfig) *StorageStub {
 		panic(fmt.Errorf("error setting up postgres test container: %s", err))
 	}
 
-	return &StorageStub{
+	storageStub := &StorageStub{
 		postgres: postgresContainer,
 		cfg:      cfg,
 	}
+	storageStub.updateStorageConfig()
+	return storageStub
+}
+
+func (stub *StorageStub) updateStorageConfig() {
+	portMap, _ := stub.postgres.Ports(stub.cfg.Ctx)
+	port, _ := strconv.Atoi(portMap[postgresDefaultPort][0].HostPort)
+	stub.cfg.ShopConfig.Shop.Storage.Port = port
 }
 
 func (stub *StorageStub) CleanupPostgresTestContainer() {
