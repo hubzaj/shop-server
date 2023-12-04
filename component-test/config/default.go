@@ -1,15 +1,19 @@
 package config
 
 import (
+	"context"
 	"github.com/hubzaj/golang-component-test/pkg/config"
 	"github.com/hubzaj/golang-component-test/pkg/shop"
+	"github.com/hubzaj/golang-component-test/pkg/storage"
 )
 
 type TestConfig struct {
 	ShopConfig *config.GeneralConfig
+
+	Ctx context.Context
 }
 
-func CreateDefaultConfig() *TestConfig {
+func CreateDefaultConfig(ctx context.Context) *TestConfig {
 	return &TestConfig{
 		ShopConfig: &config.GeneralConfig{
 			Shop: &shop.Config{
@@ -21,7 +25,16 @@ func CreateDefaultConfig() *TestConfig {
 				Api: &shop.API{
 					BaseURL: "api/v1/shop",
 				},
+				Storage: &storage.StorageConfig{
+					User:     "postgres",
+					DBName:   "shop",
+					Password: "postgres",
+					Host:     "localhost",
+					Port:     5432,
+					SSLMode:  "disable",
+				},
 			},
 		},
+		Ctx: ctx,
 	}
 }

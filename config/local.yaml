@@ -1,3 +1,10 @@
 shop:
   httpServer:
     host: localhost
+  storage:
+    user: postgres
+    password: postgres
+    dbName: shop
+    host: localhost
+    port: 5432
+    sslMode: disable

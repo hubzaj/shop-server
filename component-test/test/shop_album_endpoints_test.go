@@ -5,6 +5,7 @@ import (
 	"github.com/hubzaj/golang-component-test/component-test/config"
 	"github.com/hubzaj/golang-component-test/component-test/endpoint"
 	"github.com/hubzaj/golang-component-test/component-test/runner"
+	"github.com/hubzaj/golang-component-test/component-test/stub"
 	"github.com/hubzaj/golang-component-test/component-test/utils"
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"github.com/stretchr/testify/require"
@@ -15,10 +16,11 @@ import (
 func TestShopAlbumEndpoints(t *testing.T) {
 	t.Parallel()
 
-	cfg := config.CreateDefaultConfig()
+	cfg := config.CreateDefaultConfig(ctx)
 
 	httpClient := client.NewHTTPClient(cfg)
-	//s := stub.InitStubs(cfg)
+	stubs := stub.InitStubs(cfg)
+	t.Cleanup(stubs.Cleanup)
 
 	runner.StartShop(cfg)
 

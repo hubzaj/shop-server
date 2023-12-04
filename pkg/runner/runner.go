@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hubzaj/golang-component-test/pkg/config"
 	"github.com/hubzaj/golang-component-test/pkg/router"
+	"github.com/hubzaj/golang-component-test/pkg/storage"
 	"github.com/hubzaj/golang-component-test/pkg/utils"
 	"net"
 	"net/http"
@@ -16,7 +17,7 @@ func StartShop() *http.Server {
 
 func StartShopWithConfig(cfg *config.GeneralConfig) *http.Server {
 	initConfig(cfg)
-	//storage.InitStorage()
+	storage.InitStorage(cfg.Shop.Storage)
 
 	server := &http.Server{
 		Addr: fmt.Sprintf(
