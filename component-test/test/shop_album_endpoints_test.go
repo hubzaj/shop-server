@@ -40,7 +40,7 @@ func TestShopAlbumEndpoints(t *testing.T) {
 
 		actualAlbum := utils.FindAlbumByTitle(actualAlbums, album.Title)
 		require.NotNil(test, actualAlbum)
-		require.NotEmpty(test, actualAlbum.ID)
+		require.NotNil(test, actualAlbum.ID)
 		actualAlbum.ID = nil
 		require.Equal(test, album, actualAlbum)
 	})

@@ -1,7 +1,6 @@
 package album
 
 import (
-	"database/sql"
 	"github.com/google/uuid"
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"github.com/hubzaj/golang-component-test/pkg/storage"
@@ -42,18 +41,16 @@ func (s *Service) GetAvailableAlbums() []*model.Album {
 	if err != nil {
 		log.Fatalf("error reading albums from DB: %s", err)
 	}
-	a := &model.Album{
-		ID: &uuid.UUID{},
-	}
+	var albums []*model.Album
 	for rows.Next() {
-		if err := rows.Scan(a.ID, &a.Title, &a.Artist, &a.Price); err != nil {
+		album := &model.Album{
+			ID: &uuid.UUID{},
+		}
+		if err := rows.Scan(album.ID, &album.Title, &album.Artist, &album.Price); err != nil {
 			log.Fatalf("error deserializing row to struct: %s", err)
 		}
+		albums = append(albums, album)
 	}
-	return createAlbumsFromRows(rows)
+	return albums
 
-}
-
-func createAlbumsFromRows(rows *sql.Rows) []*model.Album {
-	return []*model.Album{}
 }
