@@ -44,8 +44,7 @@ func getConfigName() string {
 	return "local"
 }
 func getConfigPath(configName string) string {
-	projectAbsolutePath, _ := os.Getwd()
-	return fmt.Sprintf("%s/config/%s.yaml", projectAbsolutePath, configName)
+	return fmt.Sprintf("%s/config/%s.yaml", utils.GetProjectRootAbsolutePath(), configName)
 }
 
 func loadConfig(configName string) error {

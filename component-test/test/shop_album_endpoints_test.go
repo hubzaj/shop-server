@@ -5,6 +5,7 @@ import (
 	"github.com/hubzaj/golang-component-test/component-test/config"
 	"github.com/hubzaj/golang-component-test/component-test/endpoint"
 	"github.com/hubzaj/golang-component-test/component-test/runner"
+	"github.com/hubzaj/golang-component-test/component-test/stub"
 	"github.com/hubzaj/golang-component-test/component-test/utils"
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"github.com/stretchr/testify/require"
@@ -15,9 +16,11 @@ import (
 func TestShopAlbumEndpoints(t *testing.T) {
 	t.Parallel()
 
-	cfg := config.CreateDefaultConfig()
+	cfg := config.CreateDefaultConfig(ctx)
 
 	httpClient := client.NewHTTPClient(cfg)
+	stubs := stub.InitStubs(cfg)
+	t.Cleanup(stubs.Cleanup)
 
 	runner.StartShop(cfg)
 
@@ -37,8 +40,8 @@ func TestShopAlbumEndpoints(t *testing.T) {
 
 		actualAlbum := utils.FindAlbumByTitle(actualAlbums, album.Title)
 		require.NotNil(test, actualAlbum)
-		require.NotEmpty(test, actualAlbum.ID)
-		actualAlbum.ID = ""
+		require.NotNil(test, actualAlbum.ID)
+		actualAlbum.ID = nil
 		require.Equal(test, album, actualAlbum)
 	})
 }
