@@ -30,7 +30,7 @@ func CreateDefaultConfig(ctx context.Context) *TestConfig {
 					DBName:   "shop",
 					Password: "postgres",
 					Host:     "localhost",
-					Port:     5432,
+					Port:     0,
 					SSLMode:  "disable",
 				},
 			},

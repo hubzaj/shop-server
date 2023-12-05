@@ -52,5 +52,4 @@ func (s *Service) GetAvailableAlbums() []*model.Album {
 		albums = append(albums, album)
 	}
 	return albums
-
 }

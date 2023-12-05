@@ -3,6 +3,7 @@ package stub
 import (
 	"fmt"
 	"github.com/hubzaj/golang-component-test/component-test/config"
+	"github.com/hubzaj/golang-component-test/pkg/utils"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/wait"
@@ -24,7 +25,7 @@ type StorageStub struct {
 func InitPostgresStub(cfg *config.TestConfig) *StorageStub {
 	postgresContainer, err := postgres.RunContainer(cfg.Ctx,
 		testcontainers.WithImage("docker.io/postgres:15.2-alpine"),
-		postgres.WithInitScripts("/Users/hubert.zajac/Projects/Private/Golang/golang-component-test/config/resources/init.sql"),
+		postgres.WithInitScripts(getInitScript()),
 		postgres.WithDatabase(cfg.ShopConfig.Shop.Storage.DBName),
 		postgres.WithUsername(cfg.ShopConfig.Shop.Storage.User),
 		postgres.WithPassword(cfg.ShopConfig.Shop.Storage.Password),
@@ -56,4 +57,8 @@ func (stub *StorageStub) CleanupPostgresTestContainer() {
 	if err := stub.postgres.Terminate(stub.cfg.Ctx); err != nil {
 		log.Fatalf("error terminating postgres stub: %s", err)
 	}
+}
+
+func getInitScript() string {
+	return fmt.Sprintf("%s/scripts/storage/init.sql", utils.GetProjectRootAbsolutePath())
 }
