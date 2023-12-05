@@ -24,8 +24,7 @@ type StorageStub struct {
 func InitPostgresStub(cfg *config.TestConfig) *StorageStub {
 	postgresContainer, err := postgres.RunContainer(cfg.Ctx,
 		testcontainers.WithImage("docker.io/postgres:15.2-alpine"),
-		//postgres.WithInitScripts(filepath.Join("testdata", "init-user-db.sh")),
-		//postgres.WithConfigFile(filepath.Join("testdata", "my-postgres.conf")),
+		postgres.WithInitScripts("/Users/hubert.zajac/Projects/Private/Golang/golang-component-test/config/resources/init.sql"),
 		postgres.WithDatabase(cfg.ShopConfig.Shop.Storage.DBName),
 		postgres.WithUsername(cfg.ShopConfig.Shop.Storage.User),
 		postgres.WithPassword(cfg.ShopConfig.Shop.Storage.Password),
