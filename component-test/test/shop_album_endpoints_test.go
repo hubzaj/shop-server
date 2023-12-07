@@ -30,13 +30,10 @@ func TestShopAlbumEndpoints(t *testing.T) {
 		album := createNewAlbum(test, httpClient)
 
 		// When
-		response := httpClient.SendGetRequest(test, endpoint.GetAvailableAlbums)
-		defer response.Body.Close()
+		actualStatusCode, actualAlbums := stubs.ShopClient.Album.GetAvailableAlbums(test)
 
 		// Then
-		require.Equal(test, http.StatusOK, response.StatusCode)
-
-		actualAlbums := utils.UnmarshalResponseBodyToArray(response.Body, []*model.Album{})
+		require.Equal(test, http.StatusOK, actualStatusCode)
 
 		actualAlbum := utils.FindAlbumByTitle(actualAlbums, album.Title)
 		require.NotNil(test, actualAlbum)
