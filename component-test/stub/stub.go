@@ -1,16 +1,22 @@
 package stub
 
 import (
+	"github.com/hubzaj/golang-component-test/component-test/client"
 	"github.com/hubzaj/golang-component-test/component-test/config"
+	"github.com/hubzaj/golang-component-test/component-test/stub/shopstub"
 )
 
 type Stub struct {
-	Storage *StorageStub
+	ShopClient *shopstub.ShopClient
+	Storage    *StorageStub
 }
 
 func InitStubs(cfg *config.TestConfig) *Stub {
+	httpClient := client.NewHTTPClient(cfg)
+
 	return &Stub{
-		Storage: InitPostgresStub(cfg),
+		ShopClient: shopstub.NewShopClient(httpClient),
+		Storage:    InitPostgresStub(cfg),
 	}
 }
 
