@@ -8,7 +8,6 @@ import (
 type Stub struct {
 	ShopClient *ShopClient
 	Storage    *StorageStub
-	httpClient *client.HTTPClient
 }
 
 func InitStubs(cfg *config.TestConfig) *Stub {
@@ -17,7 +16,6 @@ func InitStubs(cfg *config.TestConfig) *Stub {
 	return &Stub{
 		ShopClient: NewShopClient(httpClient),
 		Storage:    InitPostgresStub(cfg),
-		httpClient: httpClient,
 	}
 }
 
