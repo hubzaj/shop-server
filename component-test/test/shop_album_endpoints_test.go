@@ -4,6 +4,7 @@ import (
 	"github.com/hubzaj/golang-component-test/component-test/config"
 	"github.com/hubzaj/golang-component-test/component-test/runner"
 	"github.com/hubzaj/golang-component-test/component-test/stub"
+	"github.com/hubzaj/golang-component-test/component-test/stub/shopstub"
 	"github.com/hubzaj/golang-component-test/component-test/utils"
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"github.com/stretchr/testify/require"
@@ -40,7 +41,7 @@ func TestShopAlbumEndpoints(t *testing.T) {
 	})
 }
 
-func createNewAlbum(t *testing.T, c *stub.ShopClient) *model.Album {
+func createNewAlbum(t *testing.T, c *shopstub.ShopClient) *model.Album {
 	album := &model.Album{
 		Title:  utils.GenerateRandomString(10),
 		Artist: utils.GenerateRandomString(10),

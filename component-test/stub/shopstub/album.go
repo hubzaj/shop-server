@@ -1,4 +1,4 @@
-package stub
+package shopstub
 
 import (
 	"github.com/hubzaj/golang-component-test/component-test/client"
@@ -7,18 +7,6 @@ import (
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"testing"
 )
-
-type ShopClient struct {
-	Album *AlbumEndpoints
-}
-
-func NewShopClient(httpClient *client.HTTPClient) *ShopClient {
-	return &ShopClient{
-		Album: &AlbumEndpoints{
-			httpClient: httpClient,
-		},
-	}
-}
 
 type AlbumEndpoints struct {
 	httpClient *client.HTTPClient
