@@ -30,3 +30,9 @@ func (stub *AlbumEndpoints) GetAvailableAlbums(t *testing.T) (int, []*model.Albu
 	albums := utils.UnmarshalResponseBodyToArray(response.Body, []*model.Album{})
 	return response.StatusCode, albums
 }
+
+func (stub *AlbumEndpoints) CreateNewAlbum(t *testing.T, album *model.Album) int {
+	response := stub.httpClient.SendPostRequest(t, endpoint.CreateNewAlbum, album)
+	defer response.Body.Close()
+	return response.StatusCode
+}
