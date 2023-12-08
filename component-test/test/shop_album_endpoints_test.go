@@ -43,9 +43,9 @@ func TestShopAlbumEndpoints(t *testing.T) {
 
 func createNewAlbum(t *testing.T, shopClient *shopstub.ShopClient) *model.Album {
 	album := &model.Album{
-		Title:  utils.GenerateRandomString(10),
-		Artist: utils.GenerateRandomString(10),
-		Price:  77.77,
+		Title:  utils.GenerateRandomString(),
+		Artist: utils.GenerateRandomString(),
+		Price:  utils.GenerateRandFloats(),
 	}
 	actualStatusCode := shopClient.Album.CreateNewAlbum(t, album)
 	require.Equal(t, http.StatusCreated, actualStatusCode)
