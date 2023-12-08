@@ -20,7 +20,7 @@ func StartShop() *http.Server {
 
 func StartShopWithConfig(cfg *config.GeneralConfig) *http.Server {
 	initConfig(cfg)
-	shopStorage := storage.InitStorage(cfg.Shop.Storage)
+	shopStorage := storage.InitStorage(config.Config.Shop.Storage)
 
 	albumService := &album.Service{
 		Storage: shopStorage,
