@@ -6,4 +6,4 @@ run:
 	./bin/shop $(ARGS) shop
 
 test-component:
-	gotestsum --format short-verbose ./component-test/... -parallel=64
+	go test ./component-test/test
