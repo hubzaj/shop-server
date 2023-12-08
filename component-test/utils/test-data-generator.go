@@ -6,7 +6,7 @@ import (
 	"golang.org/x/exp/rand"
 )
 
-func GenerateRandomStringWithLen(length int) string {
+func GenerateRandStringWithLen(length int) string {
 	b := make([]byte, length)
 	_, err := randCrypto.Read(b)
 	if err != nil {
@@ -15,14 +15,14 @@ func GenerateRandomStringWithLen(length int) string {
 	return base64.StdEncoding.EncodeToString(b)
 }
 
-func GenerateRandomString() string {
-	return GenerateRandomStringWithLen(10)
+func GenerateRandString() string {
+	return GenerateRandStringWithLen(10)
 }
 
-func GenerateRandFloatsInRange(min, max float64) float64 {
+func GenerateRandFloatInRange(min, max float64) float64 {
 	return min + rand.Float64()*(max-min)
 }
 
-func GenerateRandFloats() float64 {
-	return GenerateRandFloatsInRange(10, 100)
+func GenerateRandFloat() float64 {
+	return GenerateRandFloatInRange(10, 100)
 }
