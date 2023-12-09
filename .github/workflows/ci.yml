@@ -24,18 +24,14 @@ jobs:
           go-version: "${{ env.GOLANG_VERSION }}"
       - run: go version
 
-      - name: Shot folder structure
-        run: |
-          ls -a
-
       - name: Install dependencies
         run: |
           go mod download
 
       - name: Build
         run: |
-          go build -o /bin/shop ./cmd
+          go build -o ./bin/shop ./cmd
 
       - name: Run component tests
         run: |
-          go test /component-test/tests
+          go test ./component-test/test
