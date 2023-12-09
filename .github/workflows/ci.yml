@@ -3,6 +3,8 @@ name: CI - shop application
 on:
   pull_request:
     branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 permissions:
   contents: read
