@@ -1,4 +1,4 @@
-name: Golang application
+name: CI - shop application
 
 on:
   pull_request:
