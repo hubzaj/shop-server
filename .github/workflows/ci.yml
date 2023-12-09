@@ -1,0 +1,33 @@
+name: Golang application
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Gather runtime environment versions - asdf
+        uses: endorama/asdf-parse-tool-versions@v1
+        id: versions
+
+      - uses: actions/setup-go@v4
+        with:
+          go-version: "${{ env.GOLANG_VERSION }}"
+      - run: go version
+
+      - name: Install dependencies
+        run: |
+          go mod download
+          
+      - name: Run component tests
+        run: |
+          go test ./component-test/tests
