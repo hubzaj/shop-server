@@ -24,6 +24,10 @@ jobs:
           go-version: "${{ env.GOLANG_VERSION }}"
       - run: go version
 
+      - name: Shot folder structure
+        run: |
+          ls -a
+
       - name: Install dependencies
         run: |
           go mod download
