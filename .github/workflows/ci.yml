@@ -27,7 +27,11 @@ jobs:
       - name: Install dependencies
         run: |
           go mod download
-          
+
+      - name: Build
+        run: |
+          go build -o /bin/shop /cmd
+
       - name: Run component tests
         run: |
-          go test ./component-test/tests
+          go test /component-test/tests
