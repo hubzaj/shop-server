@@ -30,7 +30,7 @@ jobs:
 
       - name: Build
         run: |
-          go build -o /bin/shop /cmd
+          go build -o /bin/shop ./cmd
 
       - name: Run component tests
         run: |
