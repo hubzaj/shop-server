@@ -5,12 +5,16 @@ import (
 )
 
 type ShopClient struct {
-	Album *AlbumEndpoints
+	Album  *AlbumEndpoints
+	Health *HealthEndpoints
 }
 
 func NewShopClient(httpClient *client.HTTPClient) *ShopClient {
 	return &ShopClient{
 		Album: &AlbumEndpoints{
+			httpClient: httpClient,
+		},
+		Health: &HealthEndpoints{
 			httpClient: httpClient,
 		},
 	}
