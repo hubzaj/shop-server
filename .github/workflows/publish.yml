@@ -1,4 +1,4 @@
-name: CI - shop application
+name: CI - publish application artefacts
 
 on:
   push:
