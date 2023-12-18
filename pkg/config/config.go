@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/knadh/koanf/parsers/yaml"
+	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/providers/structs"
 	"github.com/knadh/koanf/v2"
@@ -33,6 +34,9 @@ func initConfigWithConfig(cfg *GeneralConfig, configName string) error {
 			return err
 		}
 	}
+	if err := loadConfigFromEnvVariables(); err != nil {
+		return err
+	}
 	SetGeneralConfig()
 	return nil
 }
@@ -57,6 +61,15 @@ func loadConfig(configName string) error {
 func loadConfigFromStruct(cfg *GeneralConfig) error {
 	if err := k.Load(structs.Provider(cfg, "koanf"), nil); err != nil {
 		return fmt.Errorf("fatal error loading config from struct: %s", err)
+	}
+	return nil
+}
+
+func loadConfigFromEnvVariables() error {
+	if err := k.Load(env.Provider("SHOP_", ".", func(s string) string {
+		return strings.Replace(strings.ToLower(s), "_", ".", -1)
+	}), nil); err != nil {
+		return fmt.Errorf("fatal error loading config from env variables: %s", err)
 	}
 	return nil
 }

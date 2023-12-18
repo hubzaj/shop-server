@@ -1,6 +1,13 @@
 shop:
   httpServer:
-    port: 8083
+    port: 8080
     shutdownTimeout: 5
+  storage:
+    user: postgres
+    password: postgres
+    dbName: shop
+    host: localhost
+    port: 5432
+    sslMode: disable
   api:
     baseUrl: /api/v1/shop
