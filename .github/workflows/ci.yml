@@ -1,12 +1,10 @@
 name: CI - basic verification
 
 on:
+  pull_request:
+    branches: [ "main" ]
   push:
     branches: [ "main" ]
-  workflow_run:
-    workflows: [ "CI - basic verification" ]
-    types:
-      - completed
 
 permissions:
   contents: read

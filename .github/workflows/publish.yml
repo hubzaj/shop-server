@@ -3,6 +3,10 @@ name: CI - shop application
 on:
   push:
     branches: [ "main" ]
+  workflow_run:
+    workflows: [ "CI - basic verification" ]
+    types:
+      - completed
 
 permissions:
   contents: read
