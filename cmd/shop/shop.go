@@ -7,7 +7,7 @@ import (
 
 func NewShopCommand() *cobra.Command {
 	return &cobra.Command{
-		Use:   "shop",
+		Use:   "start-shop-service",
 		Short: "start shop service",
 		Run: func(cmd *cobra.Command, args []string) {
 			runner.StartShop()

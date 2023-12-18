@@ -1,4 +1,4 @@
-name: CI - shop application
+name: CI - basic verification
 
 on:
   pull_request:

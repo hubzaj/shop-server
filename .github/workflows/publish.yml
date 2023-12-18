@@ -1,0 +1,37 @@
+name: CI - publish application artefacts
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_run:
+    workflows: [ "CI - basic verification" ]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          file: docker/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/shop:latest
