@@ -54,4 +54,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: hubertzajac6/shop:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/shop:latest
