@@ -16,3 +16,9 @@ build-docker-image:
 
 run-shop-in-docker:
 	@docker run -e SHOP_HTTPSERVER_PORT=9000 -p 9000:9000 ${LATEST}
+
+start-container-dev-env:
+	@docker-compose up
+
+stop-container-dev-env:
+	@docker-compose down

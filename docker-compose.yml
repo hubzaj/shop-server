@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  shop:
+    build: ./docker
+    restart: always
+    container_name: shop
+    ports:
+      - "9000:9000"
+    environment:
+      SHOP_HTTPSERVER_PORT: 9000
