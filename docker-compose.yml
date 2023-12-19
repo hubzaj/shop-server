@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   shop:
-    build: ./docker
+    build: .
     restart: always
     container_name: shop
     ports:

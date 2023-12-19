@@ -14,11 +14,8 @@ test-component:
 build-docker-image:
 	@docker build -t ${LATEST} .
 
-run-shop-in-docker:
-	@docker run -e SHOP_HTTPSERVER_PORT=9000 -p 9000:9000 ${LATEST}
-
-start-container-dev-env:
+start-container-development-environment:
 	@docker-compose up
 
-stop-container-dev-env:
+stop-container-development-environment:
 	@docker-compose down
