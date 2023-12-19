@@ -10,4 +10,4 @@ COPY cmd ./cmd
 COPY pkg ./pkg
 RUN go build -o ./bin/shop ./cmd
 
-CMD ["./bin/shop", "start-shop-service"]
+CMD ["bin/shop", "start-shop-service"]
