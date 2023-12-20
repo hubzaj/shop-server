@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  labels:
+    app: {{ .Values.name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: {{ .Values.image.name }}:{{ .Values.image.version }}
+          imagePullPolicy: Never
+          env:
+            - name: SHOP_HTTPSERVER_PORT
+              value: "{{ .Values.config.shop.port }}"
+            - name: SHOP_STORAGE_HOST
+              value: "{{ .Values.config.storage.host }}"
+            - name: SHOP_STORAGE_PORT
+              value: "{{ .Values.config.storage.port }}"
+          ports:
+            - containerPort: 80

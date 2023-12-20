@@ -19,3 +19,6 @@ start-container-development-environment:
 
 stop-container-development-environment:
 	@docker-compose down
+
+bake-kubernetes-manifest:
+	@helm template shop-service ./k8s/shop >> manifest.yml
