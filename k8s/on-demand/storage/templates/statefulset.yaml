@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Values.name }}-statefulset
+  name: {{ .Values.name }}
   labels:
     app: {{ .Values.name }}
 spec:
-  serviceName: "postgres"
-  replicas: 1
+  serviceName: "{{ .Values.name }}"
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.name }}
@@ -15,6 +15,7 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
         - name: {{ .Values.name }}
           image: {{ .Values.image.name }}:{{ .Values.image.version }}
@@ -23,11 +24,11 @@ spec:
                 name: {{ .Values.name }}-configuration
           ports:
             - containerPort: 5432
-              name: postgresdb
+              name: {{ .Values.name }}
           volumeMounts:
-            - name: pv-data
-              mountPath: /var/lib/postgresql/data
+            - name: init-scripts
+              mountPath: /docker-entrypoint-initdb.d
       volumes:
-        - name: pv-data
-          persistentVolumeClaim:
-            claimName: postgres-pv-claim
+        - name: init-scripts
+          configMap:
+            name: {{ .Values.name }}-configuration

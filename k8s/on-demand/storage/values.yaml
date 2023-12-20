@@ -1,6 +1,6 @@
 environment: qa
 
-name: shop-postgres
+name: postgres
 
 replicas: 1
 

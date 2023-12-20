@@ -8,3 +8,5 @@ data:
   POSTGRES_DB: "shop"
   POSTGRES_USER: "postgres"
   POSTGRES_PASSWORD: "postgres"
+  init.sql: |
+    {{ $.Files.Get "files/sql/init.sql" | indent 4 }}
