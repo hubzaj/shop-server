@@ -2,7 +2,7 @@ POST http://localhost:9000/api/v1/shop/album
 
 {
   "id": "de601b22-9f0d-11ee-88a9-de2ca0523ec3",
-  "title": "title", "artist":
-  "artist",
+  "title": "title",
+  "artist": "artist",
   "price": 77.7
 }
