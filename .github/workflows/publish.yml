@@ -32,6 +32,5 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          file: docker/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/shop:latest
