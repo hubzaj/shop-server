@@ -12,7 +12,10 @@ test-component:
 	go test ./component-test/test
 
 build-docker-image:
-	@docker build -f ./docker/Dockerfile -t ${LATEST} .
+	@docker build -t ${LATEST} .
 
-run-shop-in-docker:
-	@docker run ${LATEST} start-shop-service
+start-container-development-environment:
+	@docker-compose up
+
+stop-container-development-environment:
+	@docker-compose down

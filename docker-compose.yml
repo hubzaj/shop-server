@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  shop:
+    build: .
+    restart: always
+    container_name: shop
+    ports:
+      - "9000:9000"
+    environment:
+      SHOP_HTTPSERVER_PORT: 9000
+      SHOP_STORAGE_HOST: host.docker.internal
+      SHOP_STORAGE_PORT: 5432
+    depends_on: [ storage ]
+  storage:
+    image: "postgres:latest"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: shop
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./scripts/storage/init.sql:/docker-entrypoint-initdb.d/init.sql
+
