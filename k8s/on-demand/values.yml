@@ -1,0 +1,9 @@
+environment: qa
+
+name: shop-postgres
+
+replicas: 1
+
+image:
+  name: postgres
+  version: latest
