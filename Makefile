@@ -47,7 +47,7 @@ deploy-on-demand:
 expose-shop-service-url:
 	@minikube service shop-service --url
 
-cleanup:
+on-demand-cleanup:
 	@rm -rf manifest
 	@kubectl delete deployment shop-service
 	@kubectl delete service shop-service
