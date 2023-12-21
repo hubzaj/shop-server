@@ -20,32 +20,37 @@ start-container-development-environment:
 stop-container-development-environment:
 	@docker-compose down
 
+create-manifest-dir:
+	[ -d "manifest" ] || mkdir -p "manifest"
+
 bake-shop-service-manifest:
-	@helm template shop-service ./k8s/shop >> shop-service.yml
+	@make create-manifest-dir
+	@helm template shop-service ./k8s/shop >> manifest/shop-service.yml
 
 bake-on-demand-shop-service-manifest:
-	@helm template shop-service ./k8s/shop -f ./k8s/shop/values-on-demand.yaml>> shop-service.yml
+	@make create-manifest-dir
+	@helm template shop-service ./k8s/shop -f ./k8s/shop/values-on-demand.yaml>> manifest/shop-service.yml
 
 bake-on-demand-storage-manifest:
-	@helm template postgres ./k8s/on-demand/storage >> storage.yml
+	@make create-manifest-dir
+	@helm template postgres ./k8s/on-demand/storage >> manifest/storage.yml
 
 minikube-start:
 	@minikube start
 
 deploy-on-demand:
 	@make bake-on-demand-storage-manifest
-	@kubectl apply -f storage.yml
+	@kubectl apply -f manifest/storage.yml
 	@make bake-on-demand-shop-service-manifest
-	@kubectl apply -f shop-service.yml
+	@kubectl apply -f manifest/shop-service.yml
 
 expose-shop-service-url:
 	@minikube service shop-service --url
 
 cleanup:
-	@rm shop-service.yml
+	@rm -rf manifest
 	@kubectl delete deployment shop-service
 	@kubectl delete service shop-service
-	@rm storage.yml
 	@kubectl delete statefulset postgres
 	@kubectl delete service postgres
 	@kubectl delete configmap postgres-configuration
