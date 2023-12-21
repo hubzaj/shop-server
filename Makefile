@@ -52,4 +52,3 @@ cleanup:
 
 minikube-cleanup:
 	@minikube delete
-	@minikube stop
