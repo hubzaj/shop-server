@@ -1,1 +1,1 @@
-GET http://localhost:9000/api/v1/shop/albums
+GET http://{{host}}:{{port}}/api/v1/shop/albums
