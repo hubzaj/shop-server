@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: {{ .Values.name }}
-          image: {{ .Values.image.name }}:{{ .Values.image.version }}
-          imagePullPolicy: Never
+          image: {{ .Values.image.name }}:{{ required "image.version is required" .Values.image.version }}
+          imagePullPolicy: IfNotPresent
           env:
             - name: SHOP_HTTPSERVER_PORT
               value: "{{ .Values.config.shop.port }}"
@@ -26,4 +26,4 @@ spec:
             - name: SHOP_STORAGE_PORT
               value: "{{ .Values.config.storage.port }}"
           ports:
-            - containerPort: 80
+            - containerPort: 9000

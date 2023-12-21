@@ -3,8 +3,9 @@ kind: Service
 metadata:
   name: {{ .Values.name }}
 spec:
+  type: NodePort
   selector:
-    app.kubernetes.io/name: {{ .Values.name }}
+    app: {{ .Values.name }}
   ports:
     - protocol: TCP
       port: 80
