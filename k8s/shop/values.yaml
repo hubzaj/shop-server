@@ -1,0 +1,16 @@
+environment: qa
+
+name: shop-service
+
+replicas: 1
+
+config:
+    shop:
+      port: 9000
+    storage:
+      host: OVERRIDDEN_BY_CD_TOOL
+      port: 5432
+
+image:
+  name: shop
+  version: latest

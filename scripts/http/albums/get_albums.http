@@ -1,1 +1,7 @@
-GET http://localhost:9000/api/v1/shop/albums
+GET http://{{host}}:{{port}}/api/v1/shop/albums
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
