@@ -38,13 +38,13 @@ bake-on-demand-storage-manifest:
 minikube-start:
 	@minikube start
 
-deploy-on-demand:
+on-demand-deploy:
 	@make bake-on-demand-storage-manifest
 	@kubectl apply -f manifest/storage.yml
 	@make bake-on-demand-shop-service-manifest
 	@kubectl apply -f manifest/shop-service.yml
 
-expose-shop-service-url:
+on-demand-shop-service-url:
 	@minikube service shop-service --url
 
 on-demand-cleanup:
