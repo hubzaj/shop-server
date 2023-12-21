@@ -9,16 +9,17 @@ import (
 	"github.com/hubzaj/golang-component-test/pkg/shop/services/album"
 	"github.com/hubzaj/golang-component-test/pkg/storage"
 	"github.com/hubzaj/golang-component-test/pkg/utils"
+	"log"
 	"net"
 	"net/http"
 	"time"
 )
 
-func StartShop() *http.Server {
-	return StartShopWithConfig(nil)
+func StartShop(ctx *ShopServerContext) *http.Server {
+	return StartShopWithConfig(ctx, nil)
 }
 
-func StartShopWithConfig(cfg *config.GeneralConfig) *http.Server {
+func StartShopWithConfig(appContext *ShopServerContext, cfg *config.GeneralConfig) *http.Server {
 	initConfig(cfg)
 	shopStorage := storage.InitStorage(config.Config.Shop.Storage)
 
@@ -44,16 +45,19 @@ func StartShopWithConfig(cfg *config.GeneralConfig) *http.Server {
 
 	listener, err := net.Listen("tcp", server.Addr)
 	if err != nil {
-		fmt.Println("Cannot create http-server listener")
+		log.Fatalf("Cannot create http-server listener: %s", err)
 	}
 	if server.Addr != listener.Addr().String() {
 		server.Addr = listener.Addr().String()
 	}
 
+	appContext.AddTask()
 	go func() {
-		fmt.Printf("Shop http-server is listening on port [%s]", server.Addr)
+		defer appContext.TaskDone()
+
+		log.Printf("Shop http-server is listening on port [%s]", server.Addr)
 		if err := server.Serve(listener); err != nil {
-			fmt.Println("Shop http-server error")
+			log.Fatalf("Shop http-server error: %s", err)
 		}
 	}()
 

@@ -1,6 +1,7 @@
 package runner
 
 import (
+	"context"
 	"fmt"
 	"github.com/hubzaj/golang-component-test/component-test/config"
 	shopRunner "github.com/hubzaj/golang-component-test/pkg/runner"
@@ -10,7 +11,8 @@ import (
 )
 
 func StartShop(cfg *config.TestConfig) {
-	server := shopRunner.StartShopWithConfig(cfg.ShopConfig)
+	ctx := shopRunner.NewShopServiceContext(context.Background())
+	server := shopRunner.StartShopWithConfig(ctx, cfg.ShopConfig)
 	updateConfig(cfg, server)
 }
 
