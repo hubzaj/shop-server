@@ -12,5 +12,5 @@ config:
       port: 5432
 
 image:
-  name: docker.io/hubertzajac6/shop
+  name: shop
   version: latest
