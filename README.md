@@ -5,15 +5,17 @@
 
 ## Background
 
-The main goal of this project was to create simple shop server application written in Golang with all automation test support.
-- API has been designed and implemented in [Gin framework](https://pkg.go.dev/github.com/gin-gonic/gin).
-- Component test framework was implemented in [testing](https://pkg.go.dev/testing).
-- Deployment configuration (Helm Charts for kubernetes deployment) was handled in a way to support on-demand testing approach.
-- App has been dockerized and allows to work in container development environment (docker-compose).
+This project aimed to create a simple shop server application in Golang with robust automation test support.
+- The API was built using the Gin framework](https://pkg.go.dev/github.com/gin-gonic/gin)
+- component test framework was implemented with the [testing package](https://pkg.go.dev/testing)
+- Deployment configuration, managed through Helm Charts for Kubernetes deployment, was designed to support an on-demand testing approach
+- The app is dockerized, allowing easy operation in a container development environment using docker-compose
 
-** **component-tests** - tests that are something between integration and unit tests. 
-Those tests required app to being run to be able to send the requests the same as integration tests but all the shop service external calls are handled by stubs.
-Thanks to this, the tests are quick and facilitate the debugging of application source code. This enhancement improves and expedites development since these tests can be executed locally, similar to unit tests.
+** **component-tests** are a hybrid between integration and unit tests. 
+They rely on the app being active to send requests, similar to integration tests. 
+However, they handle all external calls to the shop service using stubs. 
+This setup makes the tests fast and helps in debugging the application source code. 
+This improvement speeds up development, allowing for local test execution, much like unit tests.
 
 ## Architecture
 
@@ -54,6 +56,6 @@ Requirements:
 
 ### Configuration
 
-Configuration is designed in a way to be controlled by json file stored in `/config` directory or by the environment variables.
-At the beginning config from json file is being loaded, then it is overridden by environment variables if provided.
-Mainly for the component-test purpose there is also an option to control configuration by the predefined structs.
+The configuration can be controlled through a JSON file in the `/config` directory or via environment variables.
+It first loads from the JSON file and then gets overridden by any provided environment variables.
+Specifically for component tests, there's an option to manage the configuration using predefined structs.
