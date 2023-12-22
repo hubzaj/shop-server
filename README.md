@@ -7,9 +7,9 @@
 
 The main goal of this project was to create simple shop server application written in Golang with all automation test support.
 - API has been designed and implemented in [Gin framework](https://pkg.go.dev/github.com/gin-gonic/gin).
-- Component test framework was implemented in [testing](https://pkg.go.dev/testing)
+- Component test framework was implemented in [testing](https://pkg.go.dev/testing).
 - Deployment configuration (Helm Charts for kubernetes deployment) was handled in a way to support on-demand testing approach.
-- App has been dockerized and allows to work in container development environment (docker-compose)
+- App has been dockerized and allows to work in container development environment (docker-compose).
 
 ** By **component test** I mean tests that are something between integration and unit tests. 
 Tests required app to being run, then sending requests the same as integration tests but all the external calls are handled by stubs.
@@ -17,7 +17,7 @@ Thanks to that the tests are very fast and allow of debugging application source
 
 ## Architecture
 
-![img.png](img.png)
+![img.png](docs/architecture/album.png)
 
 ## How to build project
 
