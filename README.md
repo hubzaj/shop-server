@@ -1,4 +1,4 @@
-# Shop Server - golang app with different test approach examples
+# Shop Server
 
 [<img src="https://img.shields.io/badge/development-CMD-blue">](https://github.com/hubzaj/golang/tree/main#working-with-terminal)
 [<img src="https://img.shields.io/badge/dockerhub-images-important.svg?logo=Docker">](https://hub.docker.com/r/hubertzajac6/shop)
