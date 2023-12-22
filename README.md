@@ -11,7 +11,7 @@ The main goal of this project was to create simple shop server application writt
 - Deployment configuration (Helm Charts for kubernetes deployment) was handled in a way to support on-demand testing approach.
 - App has been dockerized and allows to work in container development environment (docker-compose).
 
-** By **component test** I mean tests that are something between integration and unit tests. 
+** **component-tests** - tests that are something between integration and unit tests. 
 Tests required app to being run, then sending requests the same as integration tests but all the external calls are handled by stubs.
 Thanks to that the tests are very fast and allow of debugging application source code which improves and speed up development as they can be run locally in the same way as unit tests.
 
