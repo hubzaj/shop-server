@@ -12,11 +12,12 @@ The main goal of this project was to create simple shop server application writt
 - App has been dockerized and allows to work in container development environment (docker-compose).
 
 ** **component-tests** - tests that are something between integration and unit tests. 
-Tests required app to being run, then sending requests the same as integration tests but all the external calls are handled by stubs.
-Thanks to that the tests are very fast and allow of debugging application source code which improves and speed up development as they can be run locally in the same way as unit tests.
+Those tests required app to being run to be able to send the requests the same as integration tests but all the shop service external calls are handled by stubs.
+Thanks to this, the tests are quick and facilitate the debugging of application source code. This enhancement improves and expedites development since these tests can be executed locally, similar to unit tests.
 
 ## Architecture
 
+###### Album
 ![img.png](docs/architecture/album.png)
 
 ## How to build project
