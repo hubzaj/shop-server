@@ -6,7 +6,7 @@
 ## Background
 
 This project aimed to create a simple shop server application in Golang with robust automation test support.
-- The API was built using the Gin framework](https://pkg.go.dev/github.com/gin-gonic/gin)
+- The API was built using the [Gin framework](https://pkg.go.dev/github.com/gin-gonic/gin)
 - component test framework was implemented with the [testing package](https://pkg.go.dev/testing)
 - Deployment configuration, managed through Helm Charts for Kubernetes deployment, was designed to support an on-demand testing approach
 - The app is dockerized, allowing easy operation in a container development environment using docker-compose
