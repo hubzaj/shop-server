@@ -13,5 +13,5 @@ func NewController() *Controller {
 }
 
 func (ctrl *Controller) GetHealthStatus(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, "Hi! I am alive!")
+	c.String(http.StatusOK, "Hi! I am alive!")
 }

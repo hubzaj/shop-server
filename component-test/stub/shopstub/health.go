@@ -5,7 +5,6 @@ import (
 	"github.com/hubzaj/golang-component-test/component-test/endpoint"
 	"github.com/stretchr/testify/require"
 	"io"
-	"strings"
 	"testing"
 )
 
@@ -18,5 +17,5 @@ func (stub *HealthEndpoints) GetHealthStatus(t *testing.T) (int, string) {
 	defer response.Body.Close()
 	responseBody, err := io.ReadAll(response.Body)
 	require.NoError(t, err)
-	return response.StatusCode, strings.Trim(string(responseBody), "\"")
+	return response.StatusCode, string(responseBody)
 }
