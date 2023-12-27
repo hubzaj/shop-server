@@ -4,7 +4,6 @@ services:
   shop:
     build: .
     restart: always
-    container_name: shop
     ports:
       - "9000:9000"
     environment:
@@ -23,4 +22,3 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - ./scripts/storage/init.sql:/docker-entrypoint-initdb.d/init.sql
-
