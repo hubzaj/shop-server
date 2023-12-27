@@ -5,6 +5,8 @@ import (
 	"github.com/hubzaj/golang-component-test/component-test/endpoint"
 	"github.com/hubzaj/golang-component-test/component-test/utils"
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
+	"github.com/stretchr/testify/require"
+	"net/http"
 	"testing"
 )
 
@@ -15,12 +17,15 @@ type AlbumEndpoints struct {
 func (stub *AlbumEndpoints) GetAvailableAlbums(t *testing.T) (int, []*model.Album) {
 	response := stub.httpClient.SendGetRequest(t, endpoint.GetAvailableAlbums)
 	defer response.Body.Close()
-	albums := utils.UnmarshalResponseBodyToArray(response.Body, []*model.Album{})
+	albums := utils.UnmarshalArrayResponseBody(response.Body, []*model.Album{})
 	return response.StatusCode, albums
 }
 
-func (stub *AlbumEndpoints) CreateNewAlbum(t *testing.T, album *model.Album) int {
-	response := stub.httpClient.SendPostRequest(t, endpoint.CreateNewAlbum, album)
+func (stub *AlbumEndpoints) CreateNewAlbum(t *testing.T, body *model.Album) *model.Album {
+	response := stub.httpClient.SendPostRequest(t, endpoint.CreateNewAlbum, body)
 	defer response.Body.Close()
-	return response.StatusCode
+	require.Equal(t, http.StatusCreated, response.StatusCode)
+	album := utils.UnmarshalResponseBody(response.Body, &model.Album{})
+	require.NotNil(t, album)
+	return album
 }
