@@ -19,12 +19,8 @@ type Service struct {
 }
 
 func (s *Service) RegisterNewAlbum(album *model.Album) {
-	id, err := uuid.NewUUID()
-	if err != nil {
-		log.Fatalf("error generating id for new album: %s", err)
-	}
-	_, err = s.Storage.DB.Exec("INSERT INTO  albums(id,title,artist,price) VALUES($1,$2,$3,$4)",
-		id,
+	_, err := s.Storage.DB.Exec("INSERT INTO  albums(id,title,artist,price) VALUES($1,$2,$3,$4)",
+		album.ID,
 		album.Title,
 		album.Artist,
 		album.Price,
