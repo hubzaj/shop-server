@@ -6,7 +6,6 @@ import (
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"github.com/hubzaj/golang-component-test/pkg/shop/services"
 	"github.com/hubzaj/golang-component-test/pkg/utils"
-
 	"net/http"
 )
 
@@ -48,6 +47,7 @@ func (ctrl *Controller) processPostAlbum(c *gin.Context) {
 	if err := c.BindJSON(&newAlbum); err != nil {
 		return
 	}
+	newAlbum.ID = utils.CreateNewUUID()
 	ctrl.shopService.AlbumService.RegisterNewAlbum(newAlbum)
 	c.IndentedJSON(http.StatusCreated, newAlbum)
 }
