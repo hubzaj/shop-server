@@ -1,4 +1,5 @@
 GET http://{{host}}:{{port}}/api/v1/shop/health
+Cookie: on_demand_env={{owner}}
 
 > {%
     client.test("Request executed successfully", function () {

@@ -1,8 +1,0 @@
-environment: qa-on-demand
-
-config:
-    shop:
-      port: 9000
-    storage:
-      host: postgres
-      port: 5432
