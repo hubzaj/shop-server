@@ -53,9 +53,6 @@ on-demand-deploy:
 on-demand-env-router-url:
 	@minikube service env-router --url
 
-on-demand-shop-service-url:
-	@minikube service shop-service --url
-
 on-demand-cleanup:
 	@rm -rf manifest
 	@kubectl delete ingress env-router
