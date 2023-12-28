@@ -1,6 +1,8 @@
 IMG    := shop
 LATEST := ${IMG}:latest
 
+OWNER    := -override-with-env-owner-suffix
+
 build:
 	go build -o ./bin/shop ./cmd
 
@@ -29,11 +31,11 @@ bake-shop-service-manifest:
 
 bake-on-demand-shop-service-manifest:
 	@make create-manifest-dir
-	@helm template shop-service ./k8s/shop -f ./k8s/shop/values-on-demand.yaml>> manifest/shop-service.yml
+	@helm template shop-service ./k8s/shop -f ./k8s/shop/values.yaml --set name=shop-service${OWNER},config.storage.host=postgres${OWNER} >> manifest/shop-service${OWNER}.yml
 
 bake-on-demand-storage-manifest:
 	@make create-manifest-dir
-	@helm template postgres ./k8s/on-demand/storage >> manifest/storage.yml
+	@helm template postgres ./k8s/on-demand/storage --set name=postgres${OWNER} >> manifest/storage${OWNER}.yml
 
 bake-on-demand-env-router-manifest:
 	@make create-manifest-dir
@@ -42,27 +44,35 @@ bake-on-demand-env-router-manifest:
 minikube-start:
 	@minikube start
 
-on-demand-deploy:
+on-demand-deploy-env-router:
 	@make bake-on-demand-env-router-manifest
 	@kubectl apply -f manifest/env-router.yml
+
+on-demand-deploy:
 	@make bake-on-demand-storage-manifest
-	@kubectl apply -f manifest/storage.yml
+	@kubectl apply -f manifest/storage${OWNER}.yml
 	@make bake-on-demand-shop-service-manifest
-	@kubectl apply -f manifest/shop-service.yml
+	@kubectl apply -f manifest/shop-service${OWNER}.yml
 
 on-demand-env-router-url:
 	@minikube service env-router --url
 
-on-demand-cleanup:
-	@rm -rf manifest
+on-demand-env-router-teardown:
 	@kubectl delete ingress env-router
 	@kubectl delete service env-router
 	@kubectl delete deployment env-router
-	@kubectl delete service shop-service
-	@kubectl delete deployment shop-service
-	@kubectl delete service postgres
-	@kubectl delete statefulset postgres
-	@kubectl delete configmap postgres-configuration
+
+on-demand-shop-service-teardown:
+	@kubectl delete service shop-service${OWNER}
+	@kubectl delete deployment shop-service${OWNER}
+	@kubectl delete service postgres${OWNER}
+	@kubectl delete statefulset postgres${OWNER}
+	@kubectl delete configmap postgres${OWNER}-configuration
+
+on-demand-teardown:
+	@rm -rf manifest
+	@make on-demand-env-router-teardown
+	@make on-demand-shop-service-teardown
 
 minikube-cleanup:
 	@minikube delete
