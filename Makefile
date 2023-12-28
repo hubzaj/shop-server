@@ -35,24 +35,36 @@ bake-on-demand-storage-manifest:
 	@make create-manifest-dir
 	@helm template postgres ./k8s/on-demand/storage >> manifest/storage.yml
 
+bake-on-demand-env-router-manifest:
+	@make create-manifest-dir
+	@helm template env-router ./k8s/on-demand/env-router >> manifest/env-router.yml
+
 minikube-start:
 	@minikube start
 
 on-demand-deploy:
+	@make bake-on-demand-env-router-manifest
+	@kubectl apply -f manifest/env-router.yml
 	@make bake-on-demand-storage-manifest
 	@kubectl apply -f manifest/storage.yml
 	@make bake-on-demand-shop-service-manifest
 	@kubectl apply -f manifest/shop-service.yml
+
+on-demand-env-router-url:
+	@minikube service env-router --url
 
 on-demand-shop-service-url:
 	@minikube service shop-service --url
 
 on-demand-cleanup:
 	@rm -rf manifest
-	@kubectl delete deployment shop-service
+	@kubectl delete ingress env-router
+	@kubectl delete service env-router
+	@kubectl delete deployment env-router
 	@kubectl delete service shop-service
-	@kubectl delete statefulset postgres
+	@kubectl delete deployment shop-service
 	@kubectl delete service postgres
+	@kubectl delete statefulset postgres
 	@kubectl delete configmap postgres-configuration
 
 minikube-cleanup:

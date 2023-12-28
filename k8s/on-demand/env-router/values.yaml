@@ -1,0 +1,9 @@
+environment: qa
+
+name: env-router
+
+replicas: 1
+
+image:
+  name: nginx
+  version: latest
