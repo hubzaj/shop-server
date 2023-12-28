@@ -1,7 +1,7 @@
 IMG    := shop
 LATEST := ${IMG}:latest
 
-OWNER    := -override-with-env-owner-suffix
+OWNER    := -OVERRIDE-WITH-ENV-OWNER-SUFFIX
 
 build:
 	go build -o ./bin/shop ./cmd
@@ -43,6 +43,8 @@ bake-on-demand-env-router-manifest:
 
 minikube-start:
 	@minikube start
+	@eval $(minikube docker-env)
+	@minikube addons enable ingress
 
 on-demand-deploy-env-router:
 	@make bake-on-demand-env-router-manifest
