@@ -21,7 +21,8 @@ This improvement speeds up development, allowing for local test execution, much 
 ## Architecture
 
 ###### Album
-![img.png](docs/architecture/album.png)
+
+![album.png](docs/architecture/album.png)
 
 ## How to build project
 
