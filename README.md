@@ -1,6 +1,7 @@
 # Shop Server
 
-[<img src="https://img.shields.io/badge/development-CMD-blue">](https://github.com/hubzaj/golang/tree/main#working-with-terminal)
+[<img src="https://img.shields.io/badge/test_framework-shop_test-g">](https://github.com/hubzaj/shop-test)
+[<img src="https://img.shields.io/badge/development-how_to_start-blue">](https://github.com/hubzaj/golang/tree/main#working-with-terminal)
 [<img src="https://img.shields.io/badge/dockerhub-images-important.svg?logo=Docker">](https://hub.docker.com/r/hubertzajac6/shop)
 
 ## Background
