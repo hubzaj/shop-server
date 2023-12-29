@@ -31,20 +31,20 @@ Requirements:
 
 ### How to run
 
-* Run on local machine 
-  * `make run`
-* Run in container development environment 
-  * `make start-container-development-environment`
-    * Teardown steps to proceed: 
-      * `make stop-container-development-environment`
-* Run locally in the kubernetes cluster:
-  * `make minikube-start`
-  * `make on-demand-deploy`
-  * `make on-demand-shop-service-url`
-  * Teardown steps to proceed:
-    * `make on-demand-cleanup`
-    * `make minikube-cleanup`
+After the service is running, you can interact with it using HTTP scripts located in the `scripts/http` directory.
 
+* Local Machine Execution: `make run`
+* Containerized Development Environment: `make start-container-development-environment`
+  * To Teardown: `make stop-container-development-environment`
+* Local Execution in the Kubernetes Cluster:
+  * Start Minikube: `make minikube-start`
+    * Ensure that you have run `eval $(minikube docker-env)` in the terminal and built the `shop-service` image afterward
+  * Deploy: `make on-demand-deploy-env-router`
+  * Deploy: `make on-demand-deploy`
+  * Get Env Router URL: `make on-demand-env-router-url`
+  * **To Teardown**:
+    * Cleanup: `make on-demand-teardown`
+    * Stop Minikube: `make minikube-teardown`
 ### Working with terminal
 
 1. Install `asdf` with required plugins.

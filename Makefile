@@ -76,5 +76,5 @@ on-demand-teardown:
 	@make on-demand-env-router-teardown
 	@make on-demand-shop-service-teardown
 
-minikube-cleanup:
+minikube-teardown:
 	@minikube delete
