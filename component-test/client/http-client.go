@@ -42,14 +42,23 @@ func (c *HTTPClient) SendGetRequest(t *testing.T, endpoint string) *http.Respons
 	return response
 }
 
-func (c *HTTPClient) SendPostRequest(t *testing.T, endpoint string, payload interface{}) *http.Response {
+func (c *HTTPClient) SendPostRequestWithHeaders(t *testing.T, endpoint string, payload interface{}, headers map[string]string) *http.Response {
 	jsonPayload, err := json.Marshal(payload)
 	require.NoError(t, err)
 	request, err := http.NewRequest(http.MethodPost, c.getShopUrlWithEndpoint(endpoint), bytes.NewReader(jsonPayload))
 	require.NoError(t, err)
+	for header, value := range headers {
+		request.Header.Set(header, value)
+	}
 	response, err := c.client.Do(request)
 	require.NoError(t, err)
 	return response
+}
+
+func (c *HTTPClient) SendPostRequest(t *testing.T, endpoint string, payload interface{}) *http.Response {
+	return c.SendPostRequestWithHeaders(t, endpoint, payload, map[string]string{
+		"Content-Type": "application/json",
+	})
 }
 
 func (c *HTTPClient) getShopURL() string {

@@ -2,10 +2,12 @@ package album
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/golang/protobuf/proto"
 	"github.com/hubzaj/golang-component-test/pkg/shop/controller"
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"github.com/hubzaj/golang-component-test/pkg/shop/services"
 	"github.com/hubzaj/golang-component-test/pkg/utils"
+	"io"
 	"net/http"
 )
 
@@ -44,10 +46,25 @@ func (ctrl *Controller) PostAlbum(c *gin.Context) {
 
 func (ctrl *Controller) processPostAlbum(c *gin.Context) {
 	var newAlbum *model.Album
-	if err := c.BindJSON(&newAlbum); err != nil {
-		return
+	switch c.Request.Header.Get("Content-Type") {
+	case "application/protobuf":
+		bindProto(c, newAlbum)
+		break
+	case "application/json":
+		if err := c.BindJSON(&newAlbum); err != nil {
+		}
 	}
-	newAlbum.ID = utils.CreateNewUUID()
+	newAlbum.Id = utils.CreateNewUUID().String()
 	ctrl.shopService.AlbumService.RegisterNewAlbum(newAlbum)
 	c.IndentedJSON(http.StatusCreated, newAlbum)
+}
+
+func bindProto(c *gin.Context, album *model.Album) {
+	body, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Error reading request body", err)
+	}
+	if err = proto.Unmarshal(body, album); err != nil {
+		c.String(http.StatusBadRequest, "Error unmarshalling Protobuf request", err)
+	}
 }

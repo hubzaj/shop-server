@@ -19,10 +19,10 @@ func GenerateRandString() string {
 	return GenerateRandStringWithLen(10)
 }
 
-func GenerateRandFloatInRange(min, max float64) float64 {
-	return min + rand.Float64()*(max-min)
+func GenerateRandFloatInRange(min, max float32) float32 {
+	return min + rand.Float32()*(max-min)
 }
 
-func GenerateRandFloat() float64 {
+func GenerateRandFloat() float32 {
 	return GenerateRandFloatInRange(10, 100)
 }

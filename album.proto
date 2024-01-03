@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package model;
+
+option go_package = "pkg/shop/model";
+
+message Album {
+  string id = 1;
+  string title = 2;
+  string artist = 3;
+  float price = 4;
+}
