@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/golang/protobuf/proto"
 	"github.com/hashicorp/go-retryablehttp"
-	config "github.com/hubzaj/golang-component-test/component-test/config"
+	"github.com/hubzaj/golang-component-test/component-test/config"
+	"github.com/hubzaj/golang-component-test/pkg/shop/controller"
 	"github.com/stretchr/testify/require"
 	"testing"
 
@@ -42,23 +44,44 @@ func (c *HTTPClient) SendGetRequest(t *testing.T, endpoint string) *http.Respons
 	return response
 }
 
-func (c *HTTPClient) SendPostRequestWithHeaders(t *testing.T, endpoint string, payload interface{}, headers map[string]string) *http.Response {
-	jsonPayload, err := json.Marshal(payload)
-	require.NoError(t, err)
-	request, err := http.NewRequest(http.MethodPost, c.getShopUrlWithEndpoint(endpoint), bytes.NewReader(jsonPayload))
-	require.NoError(t, err)
-	for header, value := range headers {
-		request.Header.Set(header, value)
+func (c *HTTPClient) SendPostRequest(
+	t *testing.T,
+	endpoint string,
+	body proto.Message,
+	contentType controller.ContentType) *http.Response {
+	switch contentType {
+	case controller.JSON:
+		return c.SendJSONPostRequest(t, endpoint, body)
+	case controller.PROTOBUF:
+		return c.SendProtoPostRequest(t, endpoint, body)
+	default:
+		panic("%s is not supported Content-Type")
 	}
+}
+
+func (c *HTTPClient) SendJSONPostRequest(t *testing.T, endpoint string, body proto.Message) *http.Response {
+	payload, err := json.Marshal(body)
+	require.NoError(t, err)
+	return c.sendPostRequest(t, endpoint, payload, controller.JSON)
+}
+
+func (c *HTTPClient) SendProtoPostRequest(t *testing.T, endpoint string, body proto.Message) *http.Response {
+	payload, err := proto.Marshal(body)
+	require.NoError(t, err)
+	return c.sendPostRequest(t, endpoint, payload, controller.PROTOBUF)
+}
+
+func (c *HTTPClient) sendPostRequest(
+	t *testing.T,
+	endpoint string,
+	payload []byte,
+	contentType controller.ContentType) *http.Response {
+	request, err := http.NewRequest(http.MethodPost, c.getShopUrlWithEndpoint(endpoint), bytes.NewReader(payload))
+	require.NoError(t, err)
+	request.Header.Set("Content-Type", string(contentType))
 	response, err := c.client.Do(request)
 	require.NoError(t, err)
 	return response
-}
-
-func (c *HTTPClient) SendPostRequest(t *testing.T, endpoint string, payload interface{}) *http.Response {
-	return c.SendPostRequestWithHeaders(t, endpoint, payload, map[string]string{
-		"Content-Type": "application/json",
-	})
 }
 
 func (c *HTTPClient) getShopURL() string {

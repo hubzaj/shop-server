@@ -5,6 +5,7 @@ import (
 	"github.com/hubzaj/golang-component-test/component-test/runner"
 	"github.com/hubzaj/golang-component-test/component-test/stub"
 	"github.com/hubzaj/golang-component-test/component-test/utils"
+	"github.com/hubzaj/golang-component-test/pkg/shop/controller"
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"github.com/stretchr/testify/require"
 	"net/http"
@@ -28,7 +29,9 @@ func TestShopAlbumEndpoints(t *testing.T) {
 			Title:  utils.GenerateRandString(),
 			Artist: utils.GenerateRandString(),
 			Price:  utils.GenerateRandFloat(),
-		})
+		},
+			controller.PROTOBUF,
+		)
 
 		// When
 		actualStatusCode, actualAlbums := stubs.ShopClient.Album.GetAvailableAlbums(test)

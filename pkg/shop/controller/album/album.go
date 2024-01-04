@@ -45,18 +45,24 @@ func (ctrl *Controller) PostAlbum(c *gin.Context) {
 }
 
 func (ctrl *Controller) processPostAlbum(c *gin.Context) {
-	var newAlbum *model.Album
+	var newAlbum = &model.Album{}
 	switch c.Request.Header.Get("Content-Type") {
 	case "application/protobuf":
 		bindProto(c, newAlbum)
 		break
 	case "application/json":
-		if err := c.BindJSON(&newAlbum); err != nil {
-		}
+		bindJSON(c, newAlbum)
+		break
 	}
 	newAlbum.Id = utils.CreateNewUUID().String()
 	ctrl.shopService.AlbumService.RegisterNewAlbum(newAlbum)
 	c.IndentedJSON(http.StatusCreated, newAlbum)
+}
+
+func bindJSON(c *gin.Context, album *model.Album) {
+	if err := c.BindJSON(&album); err != nil {
+		c.String(http.StatusBadRequest, "Error unmarshalling Protobuf request", err)
+	}
 }
 
 func bindProto(c *gin.Context, album *model.Album) {
