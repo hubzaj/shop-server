@@ -1,7 +1,6 @@
 package album
 
 import (
-	"github.com/google/uuid"
 	"github.com/hubzaj/golang-component-test/pkg/shop/model"
 	"github.com/hubzaj/golang-component-test/pkg/storage"
 	"log"
@@ -20,7 +19,7 @@ type Service struct {
 
 func (s *Service) RegisterNewAlbum(album *model.Album) {
 	_, err := s.Storage.DB.Exec("INSERT INTO  albums(id,title,artist,price) VALUES($1,$2,$3,$4)",
-		album.ID,
+		album.Id,
 		album.Title,
 		album.Artist,
 		album.Price,
@@ -39,10 +38,8 @@ func (s *Service) GetAvailableAlbums() []*model.Album {
 	}
 	var albums []*model.Album
 	for rows.Next() {
-		album := &model.Album{
-			ID: &uuid.UUID{},
-		}
-		if err := rows.Scan(album.ID, &album.Title, &album.Artist, &album.Price); err != nil {
+		album := &model.Album{}
+		if err := rows.Scan(&album.Id, &album.Title, &album.Artist, &album.Price); err != nil {
 			log.Fatalf("error deserializing row to struct: %s", err)
 		}
 		albums = append(albums, album)
